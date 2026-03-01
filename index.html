@@ -3,123 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cost Master & Order Tracker</title>
-    
-    <link rel="icon" href="Cut.jpg" type="image/jpeg">
-    <link rel="apple-touch-icon" href="Cut.jpg">
-
-    <style>
-        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family: 'Chakra Petch', sans-serif; background-color: #f0f2f5; }
-        .main-wrapper { display: flex; flex-direction: column; height: 100vh; }
-        
-        .app-header { display: flex; align-items: center; justify-content: center; padding: 10px; background: white; border-bottom: 1px solid #ddd; }
-        .app-logo { width: 40px; height: 40px; border-radius: 8px; margin-right: 10px; object-fit: cover; }
-        .app-title { font-size: 1.1rem; font-weight: bold; color: #1a73e8; margin: 0; }
-
-        .top-section { flex: 1.2; overflow-y: auto; padding: 10px; box-sizing: border-box; border-bottom: 2px solid #ddd; }
-        .container-box { background: white; padding: 10px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        h3 { margin: 0 0 8px 0; font-size: 0.9rem; color: #1a73e8; text-align: center; }
-
-        .fixed-table { width: 100%; border-collapse: collapse; table-layout: fixed; border: 1px solid #ddd; }
-        th { background: #1a73e8; color: white; font-size: 10px; padding: 6px 2px; }
-        td { border-bottom: 1px solid #eee; padding: 4px 2px; text-align: center; height: 38px; }
-        
-        .cell-input { width: 90%; margin: auto; font-size: 11px; font-weight: bold; outline: none; background: #fffde7; border-radius: 3px; border: 1px solid #ffe082; padding: 4px 0; }
-        .stock-cell { background: #e8f5e9; border-color: #81c784; color: #2e7d32; }
-        .readonly-cell { background: #f8f9fa; color: #444; font-size: 10px; border: 1px solid #ddd; height: 25px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-
-        .table-footer-sum { background: #e8f0fe; padding: 8px; border-radius: 6px; margin-top: 5px; border: 1px dashed #1a73e8; display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; color: #1a73e8; }
-
-        .btn-add { width: 100%; background: #34a853; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; margin-top: 8px; font-size: 13px; }
-        .file-zone { display: flex; gap: 5px; margin-top: 10px; }
-        .btn-file { flex: 1; padding: 8px; font-size: 10px; border-radius: 6px; border: 1px solid #1a73e8; background: #fff; color: #1a73e8; font-weight: bold; }
-
-        .middle-section { flex: 0.8; padding: 10px; background: #e4e7eb; overflow-y: auto; }
-        .button-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .calc-btn { padding: 10px 4px; border: 1.5px solid #1a73e8; border-radius: 8px; background: white; color: #1a73e8; font-weight: bold; font-size: 11px; }
-        .calc-btn:active { background: #1a73e8; color: white; transform: scale(0.95); }
-
-        .bottom-summary { background: #202124; color: white; padding: 12px; text-align: center; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -5px 15px rgba(0,0,0,0.3); }
-        .total-price { font-size: 1.8rem; color: #34a853; font-weight: bold; margin: 2px 0; }
-        .history { font-size: 11px; color: #9aa0a6; margin-bottom: 5px; }
-        
-        .order-badge { background: #fbbc04; color: #202124; padding: 2px 10px; border-radius: 10px; font-weight: bold; margin-bottom: 8px; display: inline-block; font-size: 12px; }
-        .btn-group { display: flex; justify-content: center; gap: 15px; align-items: center; }
-        .btn-save-main { background: #34a853; color: white; border: none; padding: 8px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; }
-        .reset-link { color: #ff7675; font-size: 11px; text-decoration: none; }
-    </style>
+    <title>RIBBCUT Master V7.3 (Full Undo System)</title>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html, body { height: 100%; margin: 0; padding: 0; font-family: 'Chakra Petch', sans-serif; background-color: #f0f2f5; }
+        .main-wrapper { display: flex; flex-direction: column; min-height: 100vh; }
+        .app-header { display: flex; align-items: center; justify-content: center; padding: 12px; background: white; border-bottom: 1px solid #ddd; }
+        .app-title { font-size: 1.1rem; font-weight: bold; color: #1a73e8; margin: 0; }
+        .container-box { background: white; padding: 12px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin: 10px; }
+        h3 { margin: 0 0 10px 0; font-size: 0.95rem; color: #1a73e8; text-align: center; }
+        .fixed-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 11px; }
+        th { background: #1a73e8; color: white; padding: 8px 2px; }
+        td { border-bottom: 1px solid #eee; padding: 6px 2px; text-align: center; }
+        .cell-input { width: 90%; margin: auto; font-weight: bold; outline: none; background: #fffde7; border-radius: 4px; border: 1px solid #ffe082; padding: 6px 0; display: block; min-height: 20px; }
+        .stock-input { background: #e3f2fd; border-color: #90caf9; color: #1565c0; }
+        .readonly-cell { background: #f5f5f5; color: #666; border: 1px solid #ddd; border-radius: 4px; padding: 6px 0; font-weight: bold; }
+        .table-footer-sum { background: #e8f0fe; padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px dashed #1a73e8; display: flex; justify-content: space-between; font-weight: bold; font-size: 13px; color: #1a73e8; }
+        .btn-add { width: 100%; background: #34a853; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; margin: 10px 0; font-size: 14px; cursor: pointer; }
+        .button-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
+        .calc-btn { padding: 15px 5px; border: 2px solid #1a73e8; border-radius: 12px; background: white; color: #1a73e8; font-weight: bold; font-size: 12px; cursor: pointer; }
+        .stock-badge { display: block; font-size: 10px; color: #d32f2f; margin-top: 4px; font-weight: normal; }
+        .bottom-summary { background: #202124; color: white; padding: 15px; text-align: center; border-top-left-radius: 25px; border-top-right-radius: 25px; margin-top: auto; }
+        .order-counter { color: #cc9900; font-size: 16px; font-weight: bold; margin-bottom: 8px; display: block; }
+        .total-price { font-size: 2.2rem; color: #4caf50; font-weight: bold; margin: 5px 0; }
+        .history-list { font-size: 12px; color: #bdc1c6; min-height: 18px; margin-bottom: 10px; }
+        .action-btns { display: flex; align-items: center; justify-content: center; gap: 20px; }
+        .undo-link { color: #ffab91; text-decoration: none; font-size: 13px; font-weight: bold; cursor: pointer; }
+        .save-btn { background: #34a853; color: white; border: none; padding: 10px 30px; border-radius: 20px; font-weight: bold; font-size: 15px; cursor: pointer; }
+    </style>
 </head>
 <body>
 
 <div class="main-wrapper">
-    <div class="app-header">
-        <img src="Cut.jpg" alt="Logo" class="app-logo" onerror="this.style.display='none'">
-        <p class="app-title">RIBBCUT COST & ORDER</p>
-    </div>
-
-    <div class="top-section">
-        <div class="container-box">
-            <h3>⚙️ ตั้งค่าต้นทุนและสต็อก</h3>
-            <table class="fixed-table">
-                <thead>
-                    <tr>
-                        <th style="width: 25%;">ชื่อ</th>
-                        <th style="width: 15%;">ราคารวม</th>
-                        <th style="width: 12%;">จำนวน</th>
-                        <th style="width: 18%;">สต็อกคงเหลือ</th>
-                        <th style="width: 18%;">ชิ้นละ</th>
-                        <th style="width: 12%;">ลบ</th>
-                    </tr>
-                </thead>
-                <tbody id="inventory-body"></tbody>
-            </table>
-            
-            <div class="table-footer-sum">
-                <span>มูลค่าของในคลัง: <span id="all-stock-sum">0.00</span> ฿</span>
-            </div>
-
-            <button class="btn-add" onclick="addNewRow()">+ เพิ่มรายการวัสดุ</button>
-
-            <div class="file-zone">
-                <button class="btn-file" onclick="exportToFile()">💾 สำรองข้อมูล</button>
-                <button class="btn-file" onclick="document.getElementById('file-input').click()">📂 ดึงข้อมูล</button>
-                <input type="file" id="file-input" style="display:none" accept=".json" onchange="importFromFile(event)">
-            </div>
+    <div class="app-header"><p class="app-title">RIBBCUT COST & STOCK CONTROL</p></div>
+    <div class="container-box">
+        <h3>⚙️ ตั้งค่าวัสดุและต้นทุน</h3>
+        <table class="fixed-table">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">ชื่อ</th>
+                    <th style="width: 18%;">ราคารวม</th>
+                    <th style="width: 14%;">ซื้อมา</th>
+                    <th style="width: 16%;">สต็อก</th>
+                    <th style="width: 17%;">/ชิ้น</th>
+                    <th style="width: 10%;">ลบ</th>
+                </tr>
+            </thead>
+            <tbody id="inventory-body"></tbody>
+        </table>
+        <div class="table-footer-sum">
+            <span>ต้นทุนวัสดุทั้งหมด:</span>
+            <span><span id="all-stock-sum">0.00</span> ฿</span>
         </div>
+        <button class="btn-add" onclick="addNewRow()">+ เพิ่มรายการวัสดุใหม่</button>
     </div>
 
-    <div class="middle-section">
-        <div id="action-buttons" class="button-grid"></div>
-    </div>
+    <div id="action-buttons" class="button-grid"></div>
 
     <div class="bottom-summary">
-        <div class="order-badge">ทำไปแล้ว: <span id="order-count">0</span> ออเดอร์</div>
-        <div id="history-text" class="history">ยังไม่ได้เลือกรายการ</div>
-        <div style="font-size: 10px; color: #ccc;">ต้นทุนเครื่องที่กำลังกด:</div>
+        <span class="order-counter" id="total-orders-display">ทำไปแล้ว: 0 ออเดอร์</span>
+        <div id="history-text" class="history-list">ยังไม่ได้เลือกรายการ</div>
+        <div style="font-size: 12px;">ต้นทุนรวมชิ้นงานนี้:</div>
         <div class="total-price"><span id="grand-total">0.00</span> ฿</div>
-        
-        <div class="btn-group">
-            <a href="#" class="reset-link" onclick="resetCalculator()">[ ล้างค่าการเลือก ]</a>
-            <button class="btn-save-main" onclick="confirmOrder()">✅ บันทึกออเดอร์นี้</button>
-            <a href="#" class="reset-link" onclick="resetOrders()" style="color: #999;">[ รีเซ็ตยอดออเดอร์ ]</a>
+        <div class="action-btns">
+            <a class="undo-link" onclick="handleUndo()">[ ↩️ ลบออเดอร์/คืนสต็อก ]</a>
+            <button class="save-btn" onclick="finishOrder()">✅ บันทึกเสร็จสิ้น</button>
         </div>
     </div>
 </div>
 
 <script>
     let currentSum = 0;
-    let itemsSelected = [];
-    let orderCount = parseInt(localStorage.getItem('orderCount')) || 0;
-    const STORAGE_KEY = 'myCostData_v3';
+    let selectedItems = [];
+    let actionLog = []; // เก็บสิ่งที่กดในออเดอร์ปัจจุบัน
+    let orderHistory = JSON.parse(localStorage.getItem('ribbcut_order_history') || '[]'); // เก็บประวัติออเดอร์ที่จบไปแล้ว
+    let orderCount = parseInt(localStorage.getItem('ribbcut_order_count') || '0');
+    const DATA_KEY = 'ribbcut_v7_data';
 
-    function saveData() {
+    function init() {
+        const saved = localStorage.getItem(DATA_KEY);
+        const tbody = document.getElementById('inventory-body');
+        tbody.innerHTML = '';
+        if (saved && saved !== "[]") {
+            JSON.parse(saved).forEach(item => appendRow(item.name, item.totalPrice, item.amount, item.stock, item.perUnit));
+        } else {
+            appendRow('ลวด', '100', '10', '10', '10.00');
+        }
+        refreshAll();
+    }
+
+    function appendRow(name, price, qty, stock, per) {
+        const tbody = document.getElementById('inventory-body');
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><div contenteditable="true" class="cell-input" oninput="saveAndSync()">${name}</div></td>
+            <td><div contenteditable="true" class="cell-input" oninput="calcRow(this)">${price}</div></td>
+            <td><div contenteditable="true" class="cell-input" oninput="calcRow(this)">${qty}</div></td>
+            <td><div contenteditable="true" class="cell-input stock-input" oninput="saveAndSync()">${stock}</div></td>
+            <td><div class="readonly-cell">${per}</div></td>
+            <td><button onclick="deleteRow(this)" style="border:none; background:none; color:#ff5252; font-size:18px; cursor:pointer;">✕</button></td>
+        `;
+        tbody.appendChild(tr);
+    }
+
+    function addNewRow() { appendRow('', '0', '1', '0', '0.00'); saveAndSync(true); }
+
+    function calcRow(el) {
+        const row = el.closest('tr');
+        const price = parseFloat(row.cells[1].innerText) || 0;
+        const qty = parseFloat(row.cells[2].innerText) || 1;
+        row.cells[4].firstElementChild.innerText = (price/qty).toFixed(2);
+        saveAndSync();
+    }
+
+    function deleteRow(btn) { if(confirm('ลบรายการนี้ใช่หรือไม่?')) { btn.closest('tr').remove(); saveAndSync(true); } }
+
+    function saveAndSync(shouldReRenderButtons = false) {
         const rows = document.querySelectorAll('#inventory-body tr');
-        let totalVal = 0;
+        let totalInvest = 0;
         const data = Array.from(rows).map(row => {
-            const stock = parseFloat(row.cells[3].innerText) || 0;
-            const perUnit = parseFloat(row.cells[4].innerText) || 0;
-            totalVal += (stock * perUnit);
+            const price = parseFloat(row.cells[1].innerText) || 0;
+            totalInvest += price;
             return {
                 name: row.cells[0].innerText,
                 totalPrice: row.cells[1].innerText,
@@ -128,119 +132,110 @@
                 perUnit: row.cells[4].innerText
             };
         });
-        document.getElementById('all-stock-sum').innerText = totalVal.toLocaleString(undefined, {minimumFractionDigits: 2});
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-        localStorage.setItem('orderCount', orderCount);
-        document.getElementById('order-count').innerText = orderCount;
-        updateActionButtons();
+        localStorage.setItem(DATA_KEY, JSON.stringify(data));
+        document.getElementById('all-stock-sum').innerText = totalInvest.toLocaleString(undefined, {minimumFractionDigits: 2});
+        if(shouldReRenderButtons) renderActionButtons();
+        else updateButtonLabelsOnly(data);
     }
 
-    function loadData() {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        const tbody = document.getElementById('inventory-body');
-        tbody.innerHTML = '';
-        if (saved && saved !== "[]") {
-            JSON.parse(saved).forEach(item => appendRow(item.name, item.totalPrice, item.amount, item.stock, item.perUnit));
-        } else {
-            appendRow('ตัวอย่างลวด', '17', '10', '10', '1.70');
-        }
-        saveData();
-    }
-
-    function appendRow(name, price, qty, stock, per) {
-        const tbody = document.getElementById('inventory-body');
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td><div contenteditable="true" class="cell-input" oninput="saveData()">${name}</div></td>
-            <td><div contenteditable="true" class="cell-input" oninput="calculateRow(this)">${price}</div></td>
-            <td><div contenteditable="true" class="cell-input" oninput="calculateRow(this)">${qty}</div></td>
-            <td><div contenteditable="true" class="cell-input stock-cell" oninput="saveData()">${stock}</div></td>
-            <td><div class="readonly-cell">${per}</div></td>
-            <td><button onclick="if(confirm('ลบ?')){this.closest('tr').remove(); saveData();}" style="border:none; background:none; color:red;">✕</button></td>
-        `;
-        tbody.appendChild(tr);
-    }
-
-    function addNewRow() { appendRow('', '0', '1', '0', '0.00'); saveData(); }
-
-    function calculateRow(element) {
-        const row = element.closest('tr');
-        const price = parseFloat(row.cells[1].innerText) || 0;
-        const qty = parseFloat(row.cells[2].innerText) || 1;
-        row.cells[4].firstElementChild.innerText = (price/qty).toFixed(2);
-        saveData();
-    }
-
-    function updateActionButtons() {
+    function renderActionButtons() {
         const grid = document.getElementById('action-buttons');
         grid.innerHTML = '';
-        document.querySelectorAll('#inventory-body tr').forEach(row => {
-            const name = row.cells[0].innerText || "---";
-            const price = parseFloat(row.cells[4].innerText) || 0;
-            const stock = parseFloat(row.cells[3].innerText) || 0;
-            
+        const data = JSON.parse(localStorage.getItem(DATA_KEY) || '[]');
+        data.forEach((item, index) => {
             const btn = document.createElement('button');
             btn.className = 'calc-btn';
-            btn.innerHTML = `${name}<br>${price.toFixed(2)} ฿<br><small style="color:#666">คงเหลือ: ${stock}</small>`;
-            
-            btn.onclick = () => {
-                if(stock <= 0) { alert('สต็อกหมด!'); return; }
-                // ตัดสต็อกทันทีในตาราง
-                row.cells[3].innerText = (stock - 1);
-                currentSum += price;
-                itemsSelected.push(name);
-                refreshDisplay();
-                saveData();
-            };
+            btn.innerHTML = `<span class="btn-name">${item.name || 'วัสดุ'}</span><br><span class="btn-price">${parseFloat(item.perUnit).toFixed(2)} ฿</span><span class="stock-badge">คงเหลือ: ${item.stock}</span>`;
+            btn.onclick = () => useItem(index);
             grid.appendChild(btn);
         });
     }
 
-    function confirmOrder() {
-        if(itemsSelected.length === 0) { alert('กรุณาเลือกรายการก่อนบันทึก!'); return; }
+    function updateButtonLabelsOnly(data) {
+        const btns = document.querySelectorAll('.calc-btn');
+        data.forEach((item, idx) => {
+            if(btns[idx]) {
+                btns[idx].querySelector('.btn-name').innerText = item.name || 'วัสดุ';
+                btns[idx].querySelector('.btn-price').innerText = `${parseFloat(item.perUnit).toFixed(2)} ฿`;
+                btns[idx].querySelector('.stock-badge').innerText = `คงเหลือ: ${item.stock}`;
+            }
+        });
+    }
+
+    function useItem(index) {
+        const rows = document.querySelectorAll('#inventory-body tr');
+        const row = rows[index];
+        if(!row) return;
+        let stockInput = row.querySelector('.stock-input');
+        let currentStock = parseFloat(stockInput.innerText) || 0;
+        stockInput.innerText = (currentStock - 1).toFixed(2);
+        actionLog.push(index); // บันทึกว่ากดแถวไหน
+        const unitPrice = parseFloat(row.cells[4].innerText) || 0;
+        currentSum += unitPrice;
+        selectedItems.push(row.cells[0].innerText || 'วัสดุ');
+        updateDisplay();
+        saveAndSync();
+    }
+
+    // ฟังก์ชันย้อนกลับที่ฉลาดขึ้น
+    function handleUndo() {
+        const rows = document.querySelectorAll('#inventory-body tr');
+        
+        if (actionLog.length > 0) {
+            // กรณีที่ 1: กำลังเลือกของอยู่บนหน้าจอ (ยังไม่กดบันทึกเสร็จสิ้น)
+            const lastIdx = actionLog.pop();
+            const targetRow = rows[lastIdx];
+            if (targetRow) {
+                let stockInput = targetRow.querySelector('.stock-input');
+                stockInput.innerText = (parseFloat(stockInput.innerText) + 1).toFixed(2);
+                currentSum -= parseFloat(targetRow.cells[4].innerText) || 0;
+                selectedItems.pop();
+            }
+        } else if (orderHistory.length > 0) {
+            // กรณีที่ 2: หน้าจอว่าง แต่ต้องการลบ "ออเดอร์ล่าสุด" ที่บันทึกไปแล้ว
+            if (confirm("ต้องการลบออเดอร์ล่าสุดและคืนสต็อกทั้งหมดของออเดอร์นั้นใช่หรือไม่?")) {
+                const lastOrderActions = orderHistory.pop(); // ดึงประวัติรายการในออเดอร์ล่าสุดออกมา
+                lastOrderActions.forEach(idx => {
+                    const targetRow = rows[idx];
+                    if (targetRow) {
+                        let stockInput = targetRow.querySelector('.stock-input');
+                        stockInput.innerText = (parseFloat(stockInput.innerText) + 1).toFixed(2);
+                    }
+                });
+                orderCount--;
+                localStorage.setItem('ribbcut_order_count', orderCount);
+                localStorage.setItem('ribbcut_order_history', JSON.stringify(orderHistory));
+            }
+        }
+        updateDisplay();
+        saveAndSync();
+    }
+
+    function finishOrder() {
+        if (selectedItems.length === 0) return;
+        orderHistory.push([...actionLog]); // เก็บประวัติการกดของออเดอร์นี้
+        if (orderHistory.length > 50) orderHistory.shift(); // กันเมมเต็ม เก็บแค่ 50 ออเดอร์ล่าสุด
         orderCount++;
-        alert(`บันทึกออเดอร์ที่ ${orderCount} สำเร็จ!`);
-        resetCalculator();
-        saveData();
+        localStorage.setItem('ribbcut_order_count', orderCount);
+        localStorage.setItem('ribbcut_order_history', JSON.stringify(orderHistory));
+        
+        currentSum = 0;
+        selectedItems = [];
+        actionLog = []; 
+        updateDisplay();
     }
 
-    function refreshDisplay() {
+    function updateDisplay() {
+        if (currentSum < 0) currentSum = 0;
         document.getElementById('grand-total').innerText = currentSum.toLocaleString(undefined, {minimumFractionDigits: 2});
-        const counts = {}; itemsSelected.forEach(x => counts[x] = (counts[x] || 0) + 1);
-        const logText = Object.entries(counts).map(([n, c]) => `${n}x${c}`).join(', ');
-        document.getElementById('history-text').innerText = logText || "ยังไม่ได้เลือกรายการ";
+        const summary = {};
+        selectedItems.forEach(i => summary[i] = (summary[i] || 0) + 1);
+        document.getElementById('history-text').innerText = Object.entries(summary).map(([n, c]) => `${n}x${c}`).join(', ') || "ยังไม่ได้เลือกรายการ";
+        document.getElementById('total-orders-display').innerText = `ทำไปแล้ว: ${orderCount} ออเดอร์`;
     }
 
-    function resetCalculator() { currentSum = 0; itemsSelected = []; refreshDisplay(); }
-    function resetOrders() { if(confirm('ต้องการเริ่มนับออเดอร์ใหม่ใช่ไหม?')) { orderCount = 0; saveData(); } }
-
-    function exportToFile() {
-        const data = JSON.stringify({ items: localStorage.getItem(STORAGE_KEY), orders: orderCount });
-        const blob = new Blob([data], { type: 'application/json' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `cost-master-export.json`;
-        a.click();
-    }
-
-    function importFromFile(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            try {
-                const content = JSON.parse(e.target.result);
-                localStorage.setItem(STORAGE_KEY, content.items);
-                orderCount = content.orders || 0;
-                loadData();
-                alert("โหลดข้อมูลสำเร็จ!");
-            } catch (err) { alert("ไฟล์ไม่ถูกต้อง!"); }
-        };
-        reader.readAsText(file);
-    }
-
-    window.onload = loadData;
+    function refreshAll() { saveAndSync(true); updateDisplay(); }
+    window.onload = init;
 </script>
-
 </body>
 </html>
